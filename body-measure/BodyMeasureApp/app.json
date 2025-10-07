@@ -21,8 +21,24 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.herooon.BodyMeasureApp"
+      "package": "com.herooon.BodyMeasureApp",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
+    "plugins": [
+      "expo-camera",
+      "expo-gl",
+      "expo-arcore",
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "This app needs access to camera for ARCore functionality"
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }

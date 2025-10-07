@@ -23,17 +23,18 @@ android {
         }
     }
     
-    lintOptions {
-        abortOnError false
-    }
+    // Temporarily removed lint options for ultra-minimal build
+    // lintOptions {
+    //     abortOnError false
+    // }
     productFlavors {
     }
 }
 
-// Add Java compiler options for detailed error reporting
-tasks.withType(JavaCompile) {
-    options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
-}
+// Temporarily removed Java compiler options for ultra-minimal build
+// tasks.withType(JavaCompile) {
+//     options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
+// }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

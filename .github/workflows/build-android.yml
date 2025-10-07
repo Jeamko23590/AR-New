@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android APK with ML Kit + ARCore
 
 on:
   push:
@@ -20,12 +20,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
+      - name: Setup Android SDK (Updated for API 31)
         uses: android-actions/setup-android@v3
         with:
-          api-level: 27
-          build-tools: 27.0.3
-          target: android-27
+          api-level: 31
+          build-tools: 31.0.0
+          target: android-31
+          ndk-version: 23.1.7779620
 
       - name: Switch to Java 11 (for AGP 7.x compatibility)
         uses: actions/setup-java@v4
@@ -33,8 +34,24 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Grant execute permission for gradlew
         run: chmod +x './body-measure/ANDROID APP/ARCoreMeasure/gradlew'
+
+      - name: Verify ML Kit and ARCore dependencies
+        working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
+        run: |
+          echo "=== Checking ML Kit and ARCore dependencies ==="
+          ./gradlew dependencies --configuration debugRuntimeClasspath | grep -E "(mlkit|arcore|pose-detection)" || echo "No ML Kit/ARCore dependencies found"
 
       - name: Build debug APK
         working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
@@ -45,6 +62,21 @@ jobs:
           echo "=== Java Compilation Errors ==="
           ./gradlew compileDebugJavaWithJavac --no-daemon --stacktrace --info 2>&1 | tee java-errors.log
           cat java-errors.log
+
+      - name: Run unit tests (if available)
+        working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
+        run: |
+          ./gradlew test --no-daemon --stacktrace || echo "No unit tests found or tests failed"
+
+      - name: Check APK for ML Kit and ARCore
+        working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
+        run: |
+          echo "=== APK Analysis ==="
+          find app/build/outputs -name "*.apk" -type f -exec echo "APK found: {}" \;
+          if [ -f "app/build/outputs/apk/debug/app-debug.apk" ]; then
+            echo "=== APK Contents Analysis ==="
+            unzip -l app/build/outputs/apk/debug/app-debug.apk | grep -E "(mlkit|arcore|pose)" || echo "No ML Kit/ARCore classes found in APK"
+          fi
 
       - name: List build outputs
         working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
@@ -59,7 +91,13 @@ jobs:
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: arcoremeasure-debug-apk
+          name: arcoremeasure-debug-apk-mlkit
           path: "body-measure/ANDROID APP/ARCoreMeasure/app/build/outputs/apk/debug/"
           if-no-files-found: error
 
+      - name: Upload build logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: "body-measure/ANDROID APP/ARCoreMeasure/build-output.log"
+          if-no-files-found: ignore

@@ -43,10 +43,14 @@ jobs:
           echo "=== Build Output ==="
           cat build-output.log
 
+      - name: List build outputs
+        working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
+        run: find app/build/outputs -name "*.apk" -type f
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: arcoremeasure-debug-apk
-          path: "body-measure/ANDROID APP/ARCoreMeasure/app/build/outputs/apk/debug/*.apk"
+          path: "body-measure/ANDROID APP/ARCoreMeasure/app/build/outputs/apk/debug/"
           if-no-files-found: error
 

@@ -67,7 +67,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.fabric.sdk.android.Fabric;
+// import io.fabric.sdk.android.Fabric; // Removed - Fabric/Crashlytics no longer available
 
 /**
  * Created by user on 2017/9/25.

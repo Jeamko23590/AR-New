@@ -14,24 +14,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Java
+      - name: Setup Java 8
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '8'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 27
+          build-tools: 27.0.3
+          target: android-27
 
       - name: Grant execute permission for gradlew
-        run: chmod +x ./body-measure/ANDROID\ APP/ARCoreMeasure/gradlew
+        run: chmod +x './body-measure/ANDROID APP/ARCoreMeasure/gradlew'
 
       - name: Build debug APK
-        working-directory: ./body-measure/ANDROID\ APP/ARCoreMeasure
+        working-directory: ./body-measure/ANDROID APP/ARCoreMeasure
         run: ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: arcoremeasure-debug-apk
-          path: |
-            body-measure/ANDROID APP/ARCoreMeasure/app/build/outputs/apk/debug/*.apk
+          path: body-measure/ANDROID APP/ARCoreMeasure/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
 

@@ -1,0 +1,25 @@
+{
+  "name": "bodymeasureapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@tensorflow-models/posenet": "^2.2.2",
+    "@tensorflow/tfjs": "^4.22.0",
+    "expo": "~54.0.12",
+    "expo-camera": "^17.0.8",
+    "expo-gl": "^16.0.7",
+    "expo-gl-cpp": "^11.4.0",
+    "expo-media-library": "^18.2.0",
+    "expo-status-bar": "~3.0.8",
+    "expo-three": "^8.0.0",
+    "react": "19.1.0",
+    "react-native": "0.81.4"
+  },
+  "private": true
+}

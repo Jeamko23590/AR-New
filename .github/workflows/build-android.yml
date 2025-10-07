@@ -37,13 +37,13 @@ jobs:
         run: chmod +x './body-measure/ANDROID APP/ARCoreMeasure/gradlew'
 
       - name: Build debug APK
-        working-directory: ./body-measure/ANDROID APP/ARCoreMeasure
-        run: ./gradlew assembleDebug --no-daemon
+        working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
+        run: ./gradlew assembleDebug --no-daemon --stacktrace --info
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: arcoremeasure-debug-apk
-          path: body-measure/ANDROID APP/ARCoreMeasure/app/build/outputs/apk/debug/*.apk
+          path: "body-measure/ANDROID APP/ARCoreMeasure/app/build/outputs/apk/debug/*.apk"
           if-no-files-found: error
 

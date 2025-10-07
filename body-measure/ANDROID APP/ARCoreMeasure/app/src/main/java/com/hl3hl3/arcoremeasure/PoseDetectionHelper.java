@@ -71,8 +71,13 @@ public class PoseDetectionHelper {
         
         // Check pose confidence
         float minConfidence = 0.3f;
-        boolean confidentPose = landmarks.stream()
-                .allMatch(landmark -> landmark.getInFrameLikelihood() > minConfidence);
+        boolean confidentPose = true;
+        for (PoseLandmark landmark : landmarks) {
+            if (landmark.getInFrameLikelihood() <= minConfidence) {
+                confidentPose = false;
+                break;
+            }
+        }
         
         return hasHead && hasShoulders && hasHips && confidentPose;
     }

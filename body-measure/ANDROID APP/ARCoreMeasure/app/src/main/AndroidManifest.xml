@@ -2,10 +2,9 @@
 
     package="com.hl3hl3.arcoremeasure">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- This tag indicates that this application requires ARCore.  This results in the application
-           only being visible in the Google Play Store on devices that support ARCore. -->
-    <uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
+    <!-- Temporarily removed ARCore requirements for minimal build test -->
+    <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
+    <!-- <uses-feature android:name="android.hardware.camera.ar" android:required="true"/> -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,9 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- This tag indicates that this application requires ARCore.  This results in the Google Play
-                 Store downloading and installing ARCore along with the application. -->
-        <meta-data android:name="com.google.ar.core" android:value="required" />
+        <!-- Temporarily removed ARCore meta-data for minimal build test -->
+        <!-- <meta-data android:name="com.google.ar.core" android:value="required" /> -->
         <!-- Fabric API key removed - no longer using Fabric/Crashlytics -->
     </application>
 

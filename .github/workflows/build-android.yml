@@ -38,7 +38,7 @@ jobs:
 
       - name: Build debug APK
         working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
-        run: ./gradlew assembleDebug --no-daemon --stacktrace --info
+        run: ./gradlew assembleDebug --no-daemon --stacktrace --info -Xlint:deprecation
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4

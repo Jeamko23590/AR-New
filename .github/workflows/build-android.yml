@@ -1,0 +1,37 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./body-measure/ANDROID\ APP/ARCoreMeasure/gradlew
+
+      - name: Build debug APK
+        working-directory: ./body-measure/ANDROID\ APP/ARCoreMeasure
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: arcoremeasure-debug-apk
+          path: |
+            body-measure/ANDROID APP/ARCoreMeasure/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+

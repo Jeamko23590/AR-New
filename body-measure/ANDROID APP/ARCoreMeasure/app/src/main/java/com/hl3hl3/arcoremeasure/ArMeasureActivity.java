@@ -6,10 +6,10 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -33,7 +33,7 @@ import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.crashlytics.android.Crashlytics;
+// import com.crashlytics.android.Crashlytics; // Removed - Fabric/Crashlytics no longer available
 import com.google.ar.core.Anchor;
 import com.google.ar.core.ArCoreApk;
 import com.google.ar.core.Camera;
@@ -139,7 +139,7 @@ public class ArMeasureActivity extends AppCompatActivity {
 
     private void log(Exception e){
         try {
-            Crashlytics.logException(e);
+            // Crashlytics removed - using standard logging
             if (BuildConfig.DEBUG) {
                 e.printStackTrace();
             }
@@ -152,7 +152,7 @@ public class ArMeasureActivity extends AppCompatActivity {
 
     private void logStatus(String msg){
         try {
-            Crashlytics.log(msg);
+            // Crashlytics removed - using standard logging
         }catch (Exception e){
             log(e);
         }
@@ -207,7 +207,7 @@ public class ArMeasureActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+        // Fabric/Crashlytics removed
         setContentView(R.layout.activity_main);
 
 //        overlayViewForTest = (OverlayView)findViewById(R.id.overlay_for_test);

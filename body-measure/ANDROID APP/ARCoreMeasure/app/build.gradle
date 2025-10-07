@@ -16,6 +16,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    
+    // Add Java compiler options for detailed error reporting
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
+    }
     buildTypes {
         release {
             minifyEnabled true

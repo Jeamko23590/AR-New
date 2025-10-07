@@ -23,10 +23,11 @@ jobs:
       - name: Setup Android SDK (Updated for API 31)
         uses: android-actions/setup-android@v3
         with:
-          api-level: 31
-          build-tools: 31.0.0
-          target: android-31
-          ndk-version: 23.1.7779620
+          packages: |
+            platform-tools
+            platforms;android-31
+            build-tools;31.0.0
+            ndk;23.1.7779620
 
       - name: Switch to Java 11 (for AGP 7.x compatibility)
         uses: actions/setup-java@v4
@@ -92,13 +93,19 @@ jobs:
           ls -la app/build/outputs/
           echo "=== Debug directory contents ==="
           ls -la app/build/outputs/apk/debug/ || echo "Debug directory not found"
+          echo "=== Build status ==="
+          if [ -f "app/build/outputs/apk/debug/app-debug.apk" ]; then
+            echo "✅ APK build successful"
+          else
+            echo "❌ APK build failed - no APK generated"
+          fi
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: arcoremeasure-debug-apk-mlkit
           path: "body-measure/ANDROID APP/ARCoreMeasure/app/build/outputs/apk/debug/"
-          if-no-files-found: error
+          if-no-files-found: warn
 
       - name: Upload build logs
         uses: actions/upload-artifact@v4

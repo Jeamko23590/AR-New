@@ -39,9 +39,12 @@ jobs:
       - name: Build debug APK
         working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
         run: |
-          ./gradlew assembleDebug --no-daemon --stacktrace --info 2>&1 | tee build-output.log
+          ./gradlew assembleDebug --no-daemon --stacktrace --info --debug 2>&1 | tee build-output.log
           echo "=== Build Output ==="
           cat build-output.log
+          echo "=== Java Compilation Errors ==="
+          ./gradlew compileDebugJavaWithJavac --no-daemon --stacktrace --info 2>&1 | tee java-errors.log
+          cat java-errors.log
 
       - name: List build outputs
         working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"

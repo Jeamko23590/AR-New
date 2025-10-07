@@ -478,9 +478,9 @@ public class ArMeasureActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (poseDetector != null) {
-            poseDetector.cleanup();
-        }
+        // if (poseDetector != null) {
+        //     poseDetector.cleanup();
+        // }
     }
 
     private void setupRenderer(){

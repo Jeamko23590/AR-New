@@ -7,21 +7,25 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.Log;
 
-import com.google.mlkit.vision.common.InputImage;
-import com.google.mlkit.vision.pose.Pose;
-import com.google.mlkit.vision.pose.PoseDetection;
-import com.google.mlkit.vision.pose.PoseDetector;
-import com.google.mlkit.vision.pose.PoseLandmark;
-import com.google.mlkit.vision.pose.accurate.AccuratePoseDetectorOptions;
+// Temporarily commented out ML Kit imports for testing
+// import com.google.mlkit.vision.common.InputImage;
+// import com.google.mlkit.vision.pose.Pose;
+// import com.google.mlkit.vision.pose.PoseDetection;
+// import com.google.mlkit.vision.pose.PoseDetector;
+// import com.google.mlkit.vision.pose.PoseLandmark;
+// import com.google.mlkit.vision.pose.accurate.AccuratePoseDetectorOptions;
 
 import java.util.List;
 
 /**
  * ML Kit Pose Detection wrapper for human body detection
+ * Temporarily stubbed out for testing
  */
 public class PoseDetectionHelper {
     private static final String TAG = "PoseDetectionHelper";
     
+    // Temporarily commented out ML Kit implementation
+    /*
     private PoseDetector poseDetector;
     private boolean isDetecting = false;
     
@@ -31,7 +35,7 @@ public class PoseDetectionHelper {
     }
     
     public PoseDetectionHelper() {
-        // Use accurate pose detection for better body detection
+        // Initialize ML Kit Pose Detection
         AccuratePoseDetectorOptions options = new AccuratePoseDetectorOptions.Builder()
                 .setDetectorMode(AccuratePoseDetectorOptions.STREAM_MODE)
                 .build();
@@ -40,7 +44,10 @@ public class PoseDetectionHelper {
     }
     
     public void detectPose(Bitmap bitmap, PoseDetectionCallback callback) {
-        if (isDetecting) return;
+        if (isDetecting) {
+            callback.onDetectionFailed("Detection already in progress");
+            return;
+        }
         
         isDetecting = true;
         InputImage image = InputImage.fromBitmap(bitmap, 0);
@@ -59,10 +66,13 @@ public class PoseDetectionHelper {
     }
     
     private boolean validatePose(Pose pose) {
-        // Check for key body landmarks to ensure a person is detected
         List<PoseLandmark> landmarks = pose.getAllPoseLandmarks();
         
-        // Require at least these key points for a valid human pose
+        if (landmarks.isEmpty()) {
+            return false;
+        }
+        
+        // Check for essential body parts
         boolean hasHead = pose.getPoseLandmark(PoseLandmark.NOSE) != null;
         boolean hasShoulders = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER) != null && 
                               pose.getPoseLandmark(PoseLandmark.RIGHT_SHOULDER) != null;
@@ -82,13 +92,24 @@ public class PoseDetectionHelper {
         return hasHead && hasShoulders && hasHips && confidentPose;
     }
     
-    public void cleanup() {
-        if (poseDetector != null) {
-            poseDetector.close();
+    public void drawPoseOnCanvas(Canvas canvas, Pose pose, int width, int height) {
+        if (pose == null) return;
+        
+        Paint paint = new Paint();
+        paint.setColor(Color.GREEN);
+        paint.setStrokeWidth(4f);
+        paint.setStyle(Paint.Style.FILL);
+        
+        List<PoseLandmark> landmarks = pose.getAllPoseLandmarks();
+        for (PoseLandmark landmark : landmarks) {
+            PointF point = landmark.getPosition();
+            float x = point.x * width;
+            float y = point.y * height;
+            
+            canvas.drawCircle(x, y, 8f, paint);
         }
     }
     
-    // Helper method to draw pose landmarks on bitmap for debugging
     public static Bitmap drawPoseOnBitmap(Bitmap originalBitmap, Pose pose) {
         Bitmap result = originalBitmap.copy(Bitmap.Config.ARGB_8888, true);
         Canvas canvas = new Canvas(result);
@@ -105,5 +126,11 @@ public class PoseDetectionHelper {
         }
         
         return result;
+    }
+    */
+    
+    public void cleanup() {
+        // Temporarily stubbed out
+        Log.d(TAG, "PoseDetectionHelper cleanup called (stubbed)");
     }
 }

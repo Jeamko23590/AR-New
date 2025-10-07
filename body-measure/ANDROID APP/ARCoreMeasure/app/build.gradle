@@ -16,23 +16,23 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    
-    // Add Java compiler options for detailed error reporting
-    tasks.withType(JavaCompile) {
-        options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
-    }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
-        lintOptions {
-            abortOnError false
-        }
+    }
+    
+    lintOptions {
+        abortOnError false
     }
     productFlavors {
     }
+}
+
+// Add Java compiler options for detailed error reporting
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
 }
 
 dependencies {

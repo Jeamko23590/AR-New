@@ -78,6 +78,9 @@ jobs:
             echo "=== Java Compilation Errors ==="
             ./gradlew compileDebugJavaWithJavac --no-daemon --stacktrace --info 2>&1 | tee java-errors.log
             cat java-errors.log
+            echo "=== Detailed Java Compilation ==="
+            ./gradlew compileDebugJavaWithJavac --no-daemon --stacktrace --debug 2>&1 | tee java-detailed.log
+            cat java-detailed.log
             exit 1
           fi
           echo "=== Check if APK was created ==="

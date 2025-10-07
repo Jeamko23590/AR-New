@@ -172,7 +172,7 @@ public class ArMeasureActivity extends AppCompatActivity {
     private EditText et_circumference;
     private FloatingActionButton fab;
     private GuidanceOverlay guidanceOverlay;
-    private PoseDetectionHelper poseDetector;
+    // private PoseDetectionHelper poseDetector; // Temporarily commented out for testing
     private Handler mainHandler;
 
     private GLSurfaceRenderer glSerfaceRenderer = null;
@@ -226,7 +226,7 @@ public class ArMeasureActivity extends AppCompatActivity {
         guidanceOverlay = findViewById(R.id.guidance_overlay);
         
         // Initialize pose detection and handlers
-        poseDetector = new PoseDetectionHelper();
+        // poseDetector = new PoseDetectionHelper(); // Temporarily commented out for testing
         mainHandler = new Handler(Looper.getMainLooper());
 
         for(int i=0; i<cubeIconIdArray.length; i++){

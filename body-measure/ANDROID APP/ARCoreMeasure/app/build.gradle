@@ -48,9 +48,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     
     
-    // ML Kit Vision dependencies for pose detection (stable versions)
-    implementation 'com.google.mlkit:pose-detection:17.0.0'
-    implementation 'com.google.mlkit:pose-detection-accurate:17.0.0'
+    // ML Kit Vision dependencies for pose detection (stable versions) - temporarily commented out for testing
+    // implementation 'com.google.mlkit:pose-detection:17.0.0'
+    // implementation 'com.google.mlkit:pose-detection-accurate:17.0.0'
     // CameraX for camera access (versions compatible with AGP 4.1.3 and compileSdk 30)
     implementation 'androidx.camera:camera-core:1.0.2'
     implementation 'androidx.camera:camera-camera2:1.0.2'

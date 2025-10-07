@@ -44,8 +44,12 @@ dependencies {
     
     
     // ML Kit Pose Detection for human detection (versions available on Google Maven)
-    implementation 'com.google.mlkit:pose-detection:18.0.0-beta3'
-    implementation 'com.google.mlkit:pose-detection-accurate:18.0.0-beta3'
+    implementation('com.google.mlkit:pose-detection:18.0.0-beta3') {
+        exclude group: 'androidx.work', module: 'work-runtime'
+    }
+    implementation('com.google.mlkit:pose-detection-accurate:18.0.0-beta3') {
+        exclude group: 'androidx.work', module: 'work-runtime'
+    }
     // Explicit ODML image dependency matching published beta
     implementation 'com.google.android.odml:image:1.0.0-beta1'
     // CameraX for camera access (versions compatible with AGP 4.1.3 and compileSdk 30)

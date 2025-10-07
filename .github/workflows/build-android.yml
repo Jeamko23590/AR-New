@@ -51,11 +51,16 @@ jobs:
         working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
         run: |
           echo "=== Checking ML Kit and ARCore dependencies ==="
-          ./gradlew dependencies --configuration debugRuntimeClasspath | grep -E "(mlkit|arcore|pose-detection)" || echo "No ML Kit/ARCore dependencies found"
+          ./gradlew dependencies --configuration debugCompileClasspath | grep -E "(mlkit|arcore|pose-detection)" || echo "No ML Kit/ARCore dependencies found"
+          echo "=== Checking runtime dependencies ==="
+          ./gradlew dependencies --configuration debugRuntimeOnly | grep -E "(mlkit|arcore|pose-detection)" || echo "No ML Kit/ARCore runtime dependencies found"
 
       - name: Build debug APK
         working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
         run: |
+          echo "=== Starting build process ==="
+          ./gradlew clean --no-daemon --stacktrace
+          echo "=== Clean completed, starting assembleDebug ==="
           ./gradlew assembleDebug --no-daemon --stacktrace --info --debug 2>&1 | tee build-output.log
           echo "=== Build Output ==="
           cat build-output.log

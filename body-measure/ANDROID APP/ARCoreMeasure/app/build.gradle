@@ -37,16 +37,17 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.3.0')
-    testImplementation 'junit:junit:4.13.2'
-    // ARCore library
-    implementation 'com.google.ar:core:1.41.0'
-    // Obj - a simple Wavefront OBJ file loader
-    // https://github.com/javagl/Obj
-    implementation 'de.javagl:obj:0.2.1'
+    // Minimal dependencies for basic Android app
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
     
+    // Temporarily comment out all other dependencies for minimal build test
+    // androidTestImplementation('androidx.test.espresso:espresso-core:3.3.0')
+    // testImplementation 'junit:junit:4.13.2'
+    // ARCore library - temporarily commented out
+    // implementation 'com.google.ar:core:1.41.0'
+    // Obj - a simple Wavefront OBJ file loader - temporarily commented out
+    // implementation 'de.javagl:obj:0.2.1'
     
     // ML Kit Vision dependencies for pose detection (stable versions) - temporarily commented out for testing
     // implementation 'com.google.mlkit:pose-detection:17.0.0'

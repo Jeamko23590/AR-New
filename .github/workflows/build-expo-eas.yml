@@ -1,0 +1,60 @@
+name: Build Expo App with EAS Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-expo-eas:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'body-measure/BodyMeasureApp/package-lock.json'
+        
+    - name: Install Expo CLI and EAS CLI
+      run: |
+        npm install -g @expo/cli
+        npm install -g eas-cli
+        
+    - name: Install dependencies
+      working-directory: "./body-measure/BodyMeasureApp"
+      run: npm install
+      
+    - name: Configure EAS Build
+      working-directory: "./body-measure/BodyMeasureApp"
+      run: |
+        echo "y" | npx eas build:configure --non-interactive
+        
+    - name: Build Android APK with EAS
+      working-directory: "./body-measure/BodyMeasureApp"
+      run: |
+        echo "=== Building Android APK with EAS Build ==="
+        npx eas build --platform android --non-interactive --wait
+        
+    - name: Download APK from EAS
+      working-directory: "./body-measure/BodyMeasureApp"
+      run: |
+        echo "=== Downloading APK from EAS Build ==="
+        npx eas build:list --platform android --limit 1 --json > build-info.json
+        BUILD_ID=$(cat build-info.json | jq -r '.[0].id')
+        echo "Build ID: $BUILD_ID"
+        npx eas build:download $BUILD_ID --output ./app-debug.apk
+        
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: expo-eas-bodymeasure-debug-apk
+        path: body-measure/BodyMeasureApp/app-debug.apk
+        if-no-files-found: warn
+        compression-level: 6
+        overwrite: false

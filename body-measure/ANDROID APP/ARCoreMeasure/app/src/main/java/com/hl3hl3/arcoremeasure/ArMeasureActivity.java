@@ -59,6 +59,7 @@ import com.google.ar.core.exceptions.UnavailableArcoreNotInstalledException;
 import com.google.ar.core.exceptions.UnavailableSdkTooOldException;
 import com.google.ar.core.exceptions.UnavailableUserDeclinedInstallationException;
 import com.hl3hl3.arcoremeasure.renderer.RectanglePolygonRenderer;
+import com.hl3hl3.arcoremeasure.R;
 
 import java.io.IOException;
 import java.util.ArrayList;

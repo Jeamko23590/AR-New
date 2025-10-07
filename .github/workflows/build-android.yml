@@ -50,10 +50,10 @@ jobs:
       - name: Verify ML Kit and ARCore dependencies
         working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"
         run: |
-          echo "=== Checking ML Kit and ARCore dependencies ==="
-          ./gradlew dependencies --configuration debugCompileClasspath | grep -E "(mlkit|arcore|pose-detection)" || echo "No ML Kit/ARCore dependencies found"
-          echo "=== Checking runtime dependencies ==="
-          ./gradlew dependencies --configuration debugRuntimeOnly | grep -E "(mlkit|arcore|pose-detection)" || echo "No ML Kit/ARCore runtime dependencies found"
+          echo "=== Checking available Gradle configurations ==="
+          ./gradlew tasks --all | grep -i "dependencies" || echo "No dependency tasks found"
+          echo "=== Checking build.gradle for ML Kit dependencies ==="
+          grep -E "(mlkit|arcore|pose-detection)" app/build.gradle || echo "No ML Kit dependencies found in build.gradle"
 
       - name: Build debug APK
         working-directory: "./body-measure/ANDROID APP/ARCoreMeasure"

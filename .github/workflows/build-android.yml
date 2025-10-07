@@ -14,11 +14,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Java 8
+      - name: Setup Java 17 (for Android SDK tools)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '17'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -26,6 +26,12 @@ jobs:
           api-level: 27
           build-tools: 27.0.3
           target: android-27
+
+      - name: Switch to Java 8 (for Gradle build compatibility)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '8'
 
       - name: Grant execute permission for gradlew
         run: chmod +x './body-measure/ANDROID APP/ARCoreMeasure/gradlew'

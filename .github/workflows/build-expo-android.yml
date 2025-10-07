@@ -1,0 +1,78 @@
+name: Build Expo Android APK
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-expo-android:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'body-measure/BodyMeasureApp/package-lock.json'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Install Android SDK packages
+      run: |
+        echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools"
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36"
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;36.0.0"
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "ndk;27.1.12297006"
+        
+    - name: Install Expo CLI
+      run: npm install -g @expo/cli
+      
+    - name: Install dependencies
+      working-directory: "./body-measure/BodyMeasureApp"
+      run: npm install
+      
+    - name: Create local.properties
+      working-directory: "./body-measure/BodyMeasureApp"
+      run: |
+        echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+        
+    - name: Prebuild Expo app
+      working-directory: "./body-measure/BodyMeasureApp"
+      run: npx expo prebuild --platform android --clean
+      
+    - name: Build Android APK
+      working-directory: "./body-measure/BodyMeasureApp/android"
+      run: |
+        echo "=== Starting Expo Android build ==="
+        ./gradlew clean
+        ./gradlew assembleDebug --no-daemon --stacktrace
+        
+    - name: Check APK creation
+      working-directory: "./body-measure/BodyMeasureApp/android"
+      run: |
+        echo "=== Checking for APK files ==="
+        if [ -f "app/build/outputs/apk/debug/app-debug.apk" ]; then
+          echo "✅ APK created successfully"
+          ls -la app/build/outputs/apk/debug/
+        else
+          echo "❌ APK not found"
+          find . -name "*.apk" -type f || echo "No APK files found"
+          exit 1
+        fi
+        
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: expo-bodymeasure-debug-apk
+        path: body-measure/BodyMeasureApp/android/app/build/outputs/apk/debug/
+        if-no-files-found: warn
+        compression-level: 6
+        overwrite: false

@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 31
     defaultConfig {
         applicationId 'com.hl3hl3.arcoremeasure'
         // 24 is the minimum since ARCore only works with 24 and higher.
         minSdkVersion 24
-        targetSdkVersion 33
+        targetSdkVersion 31
         versionCode 13
         versionName "1.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
